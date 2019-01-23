@@ -5,6 +5,10 @@ const db = require('../db')
 const router = express.Router()
 
 router.get('/', (req, res) => {
+  res.redirect('/home')
+})
+
+router.get('/home', (req, res) => {
   db.getUsers()
     .then(users => {
       res.render('users', {users: users})
@@ -13,6 +17,8 @@ router.get('/', (req, res) => {
       res.status(500).send('DATABASE ERROR: ' + err.message)
     })
 })
+
+
 
 router.get('/profile/:id', (req, res) => {
   const id = Number(req.params.id)
@@ -33,10 +39,14 @@ router.post('/profileform', (req, res) => {
   const name = req.body.name
   const email = req.body.email
   db.newUser(name, email)
-  .then(db.newProfile)
+  .then(newProfile)
+  .then(goHome)
   .catch(err => {
     res.status(500).send('DATABASE ERROR: ' + err.message)
  })
+ function goHome () {
+   res.redirect('/home')
+ }
 })
 
 module.exports = router
