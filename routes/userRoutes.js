@@ -26,8 +26,12 @@ router.get('/profile/:id', (req, res) => {
 })
 
 router.get('/profileform', (req, res) => {
-
   res.render('form')
+})
+
+router.post('/profileform', (req, res) => {
+  db.newUser(req.body.name, req.body.email)
+  console.log(req.body)
 })
 
 module.exports = router
