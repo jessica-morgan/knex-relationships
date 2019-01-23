@@ -30,8 +30,13 @@ router.get('/profileform', (req, res) => {
 })
 
 router.post('/profileform', (req, res) => {
-  db.newUser(req.body.name, req.body.email)
-  console.log(req.body)
+  const name = req.body.name
+  const email = req.body.email
+  db.newUser(name, email)
+  .then(db.newProfile)
+  .catch(err => {
+    res.status(500).send('DATABASE ERROR: ' + err.message)
+ })
 })
 
 module.exports = router
