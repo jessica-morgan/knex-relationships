@@ -12,5 +12,8 @@ function getUsers (db = connection) {
 }
 
 function getUser (id, db = connection) {
-  return db('users').where('id', id).first()
+  return db('users')
+    .join('profiles', 'users.id', 'profiles.user_id')
+    .where('users.id', id)
+    .select()
 }
