@@ -10,7 +10,8 @@ module.exports = {
 }
 
 function getUsers (db = connection) {
-  return db('users').select()
+  return db('users')
+  .select()
 }
 
 function getUser (id, db = connection) {
@@ -24,8 +25,7 @@ function newUser (userName, userEmail, id, db = connection) {
   return db('users')
   .insert({
     name: userName, 
-    email: userEmail,
-    id: id
+    email: userEmail
   }) 
 }
 
@@ -34,5 +34,6 @@ function newProfile (userId, img, url, db = connection) {
   .insert({
     user_id: userId, 
     picture: img,
-    url: url})
+    url: url
+  })
 }

@@ -34,7 +34,7 @@ router.get('/profileform', (req, res) => {
 })
 
 router.post('/profileform', (req, res) => {
-  // const id = Number(req.params.id)
+  const id = Number(req.params.id)
   const name = req.body.name
   const email = req.body.email
   db.newUser(name, email)
