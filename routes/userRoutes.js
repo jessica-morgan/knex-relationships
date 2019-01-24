@@ -18,8 +18,6 @@ router.get('/home', (req, res) => {
     })
 })
 
-
-
 router.get('/profile/:id', (req, res) => {
   const id = Number(req.params.id)
   db.getUser(id)
@@ -36,17 +34,32 @@ router.get('/profileform', (req, res) => {
 })
 
 router.post('/profileform', (req, res) => {
+  // const id = Number(req.params.id)
   const name = req.body.name
   const email = req.body.email
   db.newUser(name, email)
-  .then(newProfile)
-  .then(goHome)
+  .then(function () {
+    return res.redirect('/new-profile')
+  })
   .catch(err => {
     res.status(500).send('DATABASE ERROR: ' + err.message)
  })
- function goHome () {
-   res.redirect('/home')
- }
+})
+
+router.get('/new-profile', (req, res) => {
+  res.render('newprofile')
+})
+
+router.post('/new-profile', (req, res) => {
+  const imageUrl = req.body.imageUrl
+  const pageUrl = req.body.pageUrl
+  db.newProfile(imageUrl, pageUrl)
+  .then(function () {
+    return res.redirect('/home')
+  })
+  .catch(err => {
+    res.status(500).send('DATABASE ERROR: ' + err.message)
+ })
 })
 
 module.exports = router
