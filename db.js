@@ -18,10 +18,10 @@ function getUser (id, db = connection) {
   return db('users')
     .join('profiles', 'users.id', 'profiles.user_id')
     .where('users.id', id)
-    .select()
+    .select('name', 'email', 'profile_image', 'url')
 }
 
-function newUser (userName, userEmail, id, db = connection) {
+function newUser (userName, userEmail, db = connection) {
   return db('users')
   .insert({
     name: userName, 
@@ -29,11 +29,11 @@ function newUser (userName, userEmail, id, db = connection) {
   }) 
 }
 
-function newProfile (userId, img, url, db = connection) {
+function newProfile (img, url, db = connection) {
   return db('profiles')
-  .insert({
-    user_id: userId, 
-    picture: img,
+  .insert({ 
+    profile_image: img,
     url: url
   })
 }
+

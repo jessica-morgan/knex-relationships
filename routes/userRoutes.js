@@ -29,12 +29,12 @@ router.get('/profile/:id', (req, res) => {
     })
 })
 
-router.get('/profileform', (req, res) => {
+router.get('/user-form', (req, res) => {
   res.render('form')
 })
 
-router.post('/profileform', (req, res) => {
-  const id = Number(req.params.id)
+router.post('/user-form', (req, res) => {
+  // const id = Number(req.params.id)
   const name = req.body.name
   const email = req.body.email
   db.newUser(name, email)
@@ -51,9 +51,9 @@ router.get('/new-profile', (req, res) => {
 })
 
 router.post('/new-profile', (req, res) => {
-  const imageUrl = req.body.imageUrl
-  const pageUrl = req.body.pageUrl
-  db.newProfile(imageUrl, pageUrl)
+  const imgUrl = req.body.profile_image
+  const pageUrl = req.body.url
+  db.newProfile(imgUrl, pageUrl)
   .then(function () {
     return res.redirect('/home')
   })
