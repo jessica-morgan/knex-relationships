@@ -6,7 +6,8 @@ module.exports = {
   getUser: getUser,
   getUsers: getUsers,
   newUser: newUser,
-  newProfile: newProfile
+  newProfile: newProfile,
+  newBlogPost: newBlogPost
 }
 
 function getUsers (db = connection) {
@@ -23,17 +24,29 @@ function getUser (id, db = connection) {
 
 function newUser (userName, userEmail, db = connection) {
   return db('users')
+  .returning('id')
   .insert({
     name: userName, 
     email: userEmail
   }) 
 }
 
-function newProfile (img, url, db = connection) {
+function newProfile (img, url, id, db = connection) {
   return db('profiles')
   .insert({ 
+    user_id: id,
     profile_image: img,
     url: url
   })
 }
 
+function newBlogPost (title, entry, image, userId, db = connection) {
+  return db('blogPosts')
+  .returning('userId')
+  .insert({
+    userId: userId,
+    title: title,
+    entry: entry,
+    image: image
+  })
+}
