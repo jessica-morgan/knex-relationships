@@ -65,7 +65,7 @@ router.post('/new-profile/:id', (req, res) => {
 
 router.get('/new-blog-post/:id', (req, res) => {
   const userId = Number(req.params.id)
-  res.render('new-blog-post', {userId: userId})
+  res.render('new-blog-post-form', {userId: userId})
 })
 
 router.post('/new-blog-post/:id', (req, res) => {
