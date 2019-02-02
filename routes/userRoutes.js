@@ -21,8 +21,8 @@ router.get('/home', (req, res) => {
 router.get('/profile/:id', (req, res) => {
   const id = Number(req.params.id)
   db.getUser(id)
-    .then(profiles => {
-      res.render('profiles', {profiles: profiles, id: id})
+    .then(profile => {
+      res.render('profiles', profile)
     })
     .catch(err => {
       res.status(500).send('DATABASE ERROR: ' + err.message)
@@ -30,7 +30,7 @@ router.get('/profile/:id', (req, res) => {
 })
 
 router.get('/user-form', (req, res) => {
-  res.render('form')
+  res.render('user-form')
 })
 
 router.post('/user-form', (req, res) => {
@@ -46,17 +46,17 @@ router.post('/user-form', (req, res) => {
 })
 
 router.get('/new-profile/:id', (req, res) => {
-  const userId = req.params.id
-  res.render('newprofile', {id: userId})
+  const userId = Number(req.params.id)
+  res.render('new-profile-form', {id: userId})
 })
 
 router.post('/new-profile/:id', (req, res) => {
-  const id = req.params.id
+  const id = Number(req.params.id)
   const imgUrl = req.body.profile_image
   const pageUrl = req.body.url
   db.newProfile(imgUrl, pageUrl, id)
-  .then(function () {
-    return res.redirect('/profile/:id')
+  .then(function (userId) {
+    return res.redirect(`/profile/${userId}`)
   })
   .catch(err => {
     res.status(500).send('DATABASE ERROR: ' + err.message)
@@ -64,26 +64,34 @@ router.post('/new-profile/:id', (req, res) => {
 })
 
 router.get('/new-blog-post/:id', (req, res) => {
-  const userId = req.params.id
-  res.render('new-blog-post', {id: userId})
+  const userId = Number(req.params.id)
+  res.render('new-blog-post', {userId: userId})
 })
 
-//this needs to do similar thing as new profile but using the 
-//blogPosts data
 router.post('/new-blog-post/:id', (req, res) => {
-  const id = req.params.id
+  const userId = Number(req.params.id)
   const title = req.body.title
   const entry = req.body.entry
   const image = req.body.image
-  db.newBlogPost(id, title, entry, image)
-  .then(function (userId) {
-    console.log(userId)
-    return res.redirect(`/profile/${userId}`)
+  db.newBlogPost(userId, title, entry, image)
+  .then(function () {
+    return res.redirect(`/profile/${userId}/blog`)
   })
   .catch(err => {
     res.status(500).send('DATABASE ERROR: ' + err.message)
  })
 })
+
+router.get('/profile/:id/blog', (req, res) => {
+  const id = Number(req.params.id)
+    db.getBlogPosts(id)
+      .then(blogPost => {
+        res.render('blog', blogPost)
+      })
+      .catch(err => {
+        res.status(500).send('DATABASE ERROR: ' + err.message)
+      })
+  })
 
 
 module.exports = router
