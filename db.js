@@ -35,7 +35,7 @@ function newUser (userName, userEmail, db = connection) {
 
 function newProfile (img, url, id, db = connection) {
   return db('profiles')
-  .returning('userid')
+  // .returning('userid')
   .insert({ 
     user_id: id,
     profile_image: img,

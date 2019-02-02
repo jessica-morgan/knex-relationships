@@ -55,8 +55,8 @@ router.post('/new-profile/:id', (req, res) => {
   const imgUrl = req.body.profile_image
   const pageUrl = req.body.url
   db.newProfile(imgUrl, pageUrl, id)
-  .then(function (userId) {
-    return res.redirect(`/profile/${userId}`)
+  .then(function () {
+    return res.redirect(`/profile/${id}`)
   })
   .catch(err => {
     res.status(500).send('DATABASE ERROR: ' + err.message)
