@@ -1,13 +1,3 @@
-# Boilerplate: Knex.js
-
-Phase 1 boilerplate project with:
-
- - Express
- - Knex
- - SQLite3
- - Express Handlebars
- - body-parser
- - Jest
- - nodemon
 
 
+RDBMS practice using express, knex, sqlite3 and handlebars.
